@@ -1,10 +1,15 @@
 import { createApp } from 'vue';
-import './global.css';
+import { createPinia } from 'pinia';
+import '@mdi/font/css/materialdesignicons.css';
+import './assets/global.css';
 import App from './App.vue';
 
-import TheHeader from './components/TheHeader.vue';
-
 const app = createApp(App);
+
+// Pinia
+const pinia = createPinia();
+
+app.use(pinia);
 
 // Vuetify
 import 'vuetify/styles';
@@ -19,6 +24,5 @@ const vuetify = createVuetify({
 
 app.use(vuetify);
 
-app.component('the-header', TheHeader);
-
+// Mount
 app.mount('#app');
