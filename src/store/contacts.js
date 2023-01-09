@@ -1,42 +1,49 @@
 import { defineStore } from 'pinia';
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 
 export const useContactsStore = defineStore('contactsStore', () => {
  const contacts = ref([
-  {
-   id: 1,
-   firstName: 'John',
-   lastName: 'Doe',
-   email: 'no-email@no-email.net',
-   company: 'Nothing',
-   jobTitle: 'Nobody',
-   country: 'Neverland',
-   phone: '0000000000',
-  },
-  {
-   id: 2,
-   firstName: 'Jane',
-   lastName: 'Doe',
-   email: 'no-email@no-email.net',
-   country: 'Neverland',
-   phone: '0000000000',
-  },
+  // {
+  //  id: 1,
+  //  firstName: 'John',
+  //  lastName: 'Doe',
+  //  email: 'no-email@no-email.net',
+  //  company: 'Nothing',
+  //  jobTitle: 'Nobody',
+  //  country: 'Neverland',
+  //  phone: '0000000000',
+  // },
+  // {
+  //  id: 2,
+  //  firstName: 'Jane',
+  //  lastName: 'Doe',
+  //  email: 'no-email@no-email.net',
+  //  country: 'Neverland',
+  //  phone: '0000000000',
+  // },
  ]);
 
  const filteredContacts = ref([]);
 
+ function setLocalStorage() {
+  localStorage.setItem('contacts', JSON.stringify(contacts.value));
+ }
+
  function addContact(contact) {
   contacts.value.push(contact);
+  setLocalStorage();
  }
 
  function editContact(contact) {
   const idx = contacts.value.findIndex((i) => i.id === contact.id);
   contacts.value[idx] = contact;
+  setLocalStorage();
  }
 
  function deleteContact(id) {
   const idx = contacts.value.findIndex((i) => id === i.id);
   contacts.value.splice(idx, 1);
+  setLocalStorage();
  }
 
  function filterContacts(e) {
@@ -57,6 +64,10 @@ export const useContactsStore = defineStore('contactsStore', () => {
    filteredContacts.value = [];
   }
  }
+
+ onMounted(() => {
+  contacts.value = JSON.parse(localStorage.getItem('contacts'));
+ });
  return {
   contacts,
   filteredContacts,
