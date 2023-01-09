@@ -89,6 +89,7 @@
    <p class="text-center" v-if="contacts.length">
     {{ currentContacts.length }} contacts found
    </p>
+   <p class="text-center" v-else>No contacts. Add it!</p>
   </v-container>
   <v-main>
    <v-container>
