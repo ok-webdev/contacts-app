@@ -22,21 +22,24 @@
      <v-icon icon="mdi-dots-horizontal" class="mr-3" v-bind="props" />
     </template>
     <v-list>
-     <v-list-item>
-      <v-btn color="primary" size="small">Edit</v-btn>
-     </v-list-item>
-     <v-list-item>
-      <v-btn color="error" size="small">Delete</v-btn>
-     </v-list-item>
+     <v-btn variant="plain" color="primary" size="small" @click="editContact"
+      >Edit</v-btn
+     >
+
+     <v-btn variant="plain" color="error" size="small" @click="deleteContact"
+      >Delete</v-btn
+     >
     </v-list>
    </v-menu>
   </div>
   <v-expand-transition>
    <div v-if="expand" class="ml-9 mr-3">
     <v-divider />
-    <v-card-text><strong>Country:</strong> {{ props.country }}</v-card-text>
-    <v-card-text><strong>Email:</strong> {{ props.email }}</v-card-text>
-    <v-card-text><strong>Phone:</strong> {{ props.phone }}</v-card-text>
+    <v-card-text>
+     <p><strong>Country:</strong> {{ props.country }}</p>
+     <p><strong>Email:</strong> {{ props.email }}</p>
+     <p><strong>Phone:</strong> {{ props.phone }}</p>
+    </v-card-text>
    </div>
   </v-expand-transition>
  </v-card>
@@ -44,7 +47,13 @@
 
 <script setup>
  import { ref } from 'vue';
+
+ const emit = defineEmits(['edit', 'delete']);
  const props = defineProps({
+  id: {
+   type: Number,
+   required: true,
+  },
   firstName: {
    type: String,
    required: true,
@@ -69,7 +78,8 @@
   },
   country: {
    type: String,
-   required: true,
+   required: false,
+   default: 'No country',
   },
   phone: {
    type: String,
@@ -78,6 +88,13 @@
  });
 
  const expand = ref(false);
+ function deleteContact() {
+  emit('delete', {id: props.id, name: `${props.firstName} ${props.lastName}`});
+ }
+
+ function editContact() {
+  emit('edit', props.id);
+ }
 </script>
 
 <style scoped>
