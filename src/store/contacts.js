@@ -24,8 +24,12 @@ export const useContactsStore = defineStore('contactsStore', () => {
  ]);
 
  function addContact (contact) {
-  console.log(contact);
   contacts.value.push(contact)
+ }
+
+ function editContact(contact) {
+  const idx = contacts.value.findIndex(i => i.id === contact.id);
+  contacts.value[idx] = contact;
  }
 
  function deleteContact (id) {
@@ -36,6 +40,7 @@ export const useContactsStore = defineStore('contactsStore', () => {
  return {
   contacts,
   addContact,
+  editContact,
   deleteContact
  };
 });

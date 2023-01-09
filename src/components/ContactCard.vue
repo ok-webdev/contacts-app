@@ -93,7 +93,7 @@
  }
 
  function editContact() {
-  emit('edit', props.id);
+  emit('edit', {...props});
  }
 </script>
 

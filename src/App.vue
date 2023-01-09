@@ -13,7 +13,7 @@
  let formMode = ref('add');
 
  const isModal = ref(false);
- const deletingContact = ref(null);
+ const currentContact = ref(null);
  const isSubmitDeleteContactModal = ref(false);
 
  function openModal(mode) {
@@ -35,24 +35,29 @@
  }
 
  function deleteContact(e) {
-  console.log(e);
-  deletingContact.value = e;
+  currentContact.value = e;
   isSubmitDeleteContactModal.value = true;
  }
 
  function closeSubmitCard() {
   isSubmitDeleteContactModal.value = false;
-  setTimeout(() => deletingContact.value = null, 300)
+  setTimeout(() => (currentContact.value = null), 300);
  }
 
  function submitDeleteContact() {
-  console.log(deletingContact.value.id);
-  contactsStore.deleteContact(deletingContact.value.id);
+  contactsStore.deleteContact(currentContact.value.id);
   closeSubmitCard();
  }
 
  function editContact(e) {
-  console.log(e);
+  formMode.value = 'edit';
+  currentContact.value = e;
+  openModal(formMode.value);
+ }
+
+ function editContactHandler(e) {
+  contactsStore.editContact(e);
+  closeModal()
  }
 </script>
 
@@ -97,7 +102,9 @@
  >
   <contact-form
    :mode="formMode"
+   :contact="currentContact"
    @submit="formSubmitHandler"
+   @edit="editContactHandler"
    @cancel="closeModal"
   />
  </v-overlay>
@@ -109,7 +116,7 @@
   <submit-card
    title="Are you sure?"
    text="Delete"
-   :name="deletingContact?.name"
+   :name="currentContact?.name"
    @cancel="closeSubmitCard"
    @submit="submitDeleteContact"
   />

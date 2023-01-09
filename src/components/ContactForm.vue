@@ -74,22 +74,27 @@
 
   <div class="d-flex justify-center mt-3">
    <v-btn type="reset" variant="tonal" color="error">Cancel</v-btn>
-   <v-btn type="submit" variant="tonal" color="primary" class="ml-3"
-    >Submit</v-btn
-   >
+   <v-btn type="submit" variant="tonal" color="primary" class="ml-3">{{
+    props.mode === 'add' ? 'add' : 'edit'
+   }}</v-btn>
   </div>
  </v-form>
 </template>
 
 <script setup>
- import { ref } from 'vue';
+ import { ref, onMounted } from 'vue';
  const props = defineProps({
   mode: {
    type: String,
    default: 'add',
   },
+  contact: {
+   type: Object,
+   required: false,
+   default: null,
+  },
  });
- const emit = defineEmits(['submit', 'cancel']);
+ const emit = defineEmits(['submit', 'edit', 'cancel']);
  const formData = ref({
   firstName: '',
   lastName: '',
@@ -102,7 +107,21 @@
 
  const rules = [(v) => !!v || 'Field is required'];
 
- function submitHandler() {
+ onMounted(() => {
+  if (props.mode === 'edit' && props.contact) {
+   formData.value = {
+    firstName: props.contact.firstName,
+    lastName: props.contact.lastName,
+    email: props.contact.email,
+    country: props.contact.country,
+    company: props.contact.country,
+    jobTitle: props.contact.jobTitle,
+    phone: props.contact.phone,
+   };
+  }
+ });
+
+ function submitAddHandler() {
   if (
    formData.value.firstName.length > 0 &&
    formData.value.lastName.length > 0 &&
@@ -113,6 +132,25 @@
   }
  }
 
+ function submitEditHandler() {
+  if (
+   formData.value.firstName.length > 0 &&
+   formData.value.lastName.length > 0 &&
+   formData.value.email.length > 0 &&
+   formData.value.phone.length > 0
+  ) {
+   emit('edit', { id: props.contact.id, ...formData.value });
+  }
+ }
+
+ function submitHandler() {
+  if (props.mode === 'add') {
+   submitAddHandler();
+  }
+  if (props.mode === 'edit') {
+   submitEditHandler();
+  }
+ }
  function cancelHandler() {
   formData.value = {
    firstName: '',
