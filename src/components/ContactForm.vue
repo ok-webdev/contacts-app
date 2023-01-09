@@ -65,7 +65,8 @@
   <v-select
    label="Select"
    v-model="formData.country"
-   :items="['California', 'Colorado', 'Florida', 'Georgia', 'Texas', 'Wyoming']"
+   :items="countries"
+   item-title="name"
    color="primary"
    variant="underlined"
    hint="Select country (not required)"
@@ -82,6 +83,7 @@
 </template>
 
 <script setup>
+ import countries from '../assets/countries.json';
  import { ref, onMounted } from 'vue';
  const props = defineProps({
   mode: {
