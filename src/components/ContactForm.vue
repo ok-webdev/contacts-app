@@ -116,7 +116,7 @@
     lastName: props.contact.lastName,
     email: props.contact.email,
     country: props.contact.country,
-    company: props.contact.country,
+    company: props.contact.company,
     jobTitle: props.contact.jobTitle,
     phone: props.contact.phone,
    };
