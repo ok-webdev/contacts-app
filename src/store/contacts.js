@@ -23,7 +23,19 @@ export const useContactsStore = defineStore('contactsStore', () => {
    },
  ]);
 
+ function addContact (contact) {
+  console.log(contact);
+  contacts.value.push(contact)
+ }
+
+ function deleteContact (id) {
+  const idx = contacts.value.findIndex(i => id === i.id)
+  contacts.value.splice(idx, 1)
+ }
+
  return {
   contacts,
+  addContact,
+  deleteContact
  };
 });
