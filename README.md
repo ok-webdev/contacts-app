@@ -1,4 +1,4 @@
-# Vue 3 + Vite + Vuetify
+# Vue 3 + Pinia + Vite + Vuetify
 
 ## Setup
 
