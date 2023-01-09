@@ -73,7 +73,7 @@
     color="primary"
     class="mt-3"
    />
-   <p class="text-center">{{ contacts.length }} contacts found</p>
+   <p class="text-center" v-if="contacts.length">{{ contacts.length }} contacts found</p>
   </v-container>
   <v-main>
    <v-container>
