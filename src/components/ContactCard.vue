@@ -1,7 +1,7 @@
 <template>
  <v-card class="mb-3" color="#efefef">
   <div class="d-flex align-center justify-space-between pb-3">
-   <div class="d-flex align-start">
+   <div class="d-flex align-center">
     <v-icon
      icon="mdi-chevron-right"
      :class="['mt-3 mx-3 icon', { rotate: expand }]"
