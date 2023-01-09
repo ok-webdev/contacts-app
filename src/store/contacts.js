@@ -66,7 +66,9 @@ export const useContactsStore = defineStore('contactsStore', () => {
  }
 
  onMounted(() => {
-  contacts.value = JSON.parse(localStorage.getItem('contacts'));
+  if (JSON.parse(localStorage.getItem('contacts'))) {
+   contacts.value = JSON.parse(localStorage.getItem('contacts'));
+  }
  });
  return {
   contacts,
