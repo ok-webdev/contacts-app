@@ -1,6 +1,6 @@
 <script setup>
  import { useContactsStore } from './store/contacts.js';
- import { ref } from 'vue';
+ import { ref, computed } from 'vue';
 
  import TheHeader from './components/TheHeader.vue';
  import ContactCard from './components/ContactCard.vue';
@@ -9,7 +9,13 @@
 
  const contactsStore = useContactsStore();
 
- const contacts = ref(contactsStore.contacts);
+ const contacts = computed(() => contactsStore.contacts);
+ const filteredContacts = computed(() => contactsStore.filteredContacts);
+ const filter = ref('');
+
+ const currentContacts = computed(() => {
+  return filter.value?.trim() ? filteredContacts.value : contacts.value;
+ });
  let formMode = ref('add');
 
  const isModal = ref(false);
@@ -57,7 +63,11 @@
 
  function editContactHandler(e) {
   contactsStore.editContact(e);
-  closeModal()
+  closeModal();
+ }
+
+ function filterContacts() {
+  contactsStore.filterContacts(filter.value);
  }
 </script>
 
@@ -72,13 +82,18 @@
     label="Search by name, company or email"
     color="primary"
     class="mt-3"
+    v-model="filter"
+    @input="filterContacts"
+    @click:clear="filterContacts"
    />
-   <p class="text-center" v-if="contacts.length">{{ contacts.length }} contacts found</p>
+   <p class="text-center" v-if="contacts.length">
+    {{ currentContacts.length }} contacts found
+   </p>
   </v-container>
   <v-main>
    <v-container>
     <contact-card
-     v-for="contact in contacts"
+     v-for="contact in currentContacts"
      :key="contact.id"
      :id="contact.id"
      :first-name="contact?.firstName"

@@ -14,33 +14,55 @@ export const useContactsStore = defineStore('contactsStore', () => {
    phone: '0000000000',
   },
   {
-    id: 2,
-    firstName: 'Jane',
-    lastName: 'Doe',
-    email: 'no-email@no-email.net',
-    country: 'Neverland',
-    phone: '0000000000',
-   },
+   id: 2,
+   firstName: 'Jane',
+   lastName: 'Doe',
+   email: 'no-email@no-email.net',
+   country: 'Neverland',
+   phone: '0000000000',
+  },
  ]);
 
- function addContact (contact) {
-  contacts.value.push(contact)
+ const filteredContacts = ref([]);
+
+ function addContact(contact) {
+  contacts.value.push(contact);
  }
 
  function editContact(contact) {
-  const idx = contacts.value.findIndex(i => i.id === contact.id);
+  const idx = contacts.value.findIndex((i) => i.id === contact.id);
   contacts.value[idx] = contact;
  }
 
- function deleteContact (id) {
-  const idx = contacts.value.findIndex(i => id === i.id)
-  contacts.value.splice(idx, 1)
+ function deleteContact(id) {
+  const idx = contacts.value.findIndex((i) => id === i.id);
+  contacts.value.splice(idx, 1);
  }
 
+ function filterContacts(e) {
+  if (e) {
+   const filtered = contacts.value.filter((contact) => {
+    return Object.values(contact).some(
+     (contactValue) =>
+      !Number.isInteger(contactValue) &&
+      contactValue
+       ?.toString()
+       ?.toLowerCase()
+       .trim()
+       .includes(e.toLowerCase().trim())
+    );
+   });
+   filteredContacts.value = filtered;
+  } else {
+   filteredContacts.value = [];
+  }
+ }
  return {
   contacts,
+  filteredContacts,
   addContact,
   editContact,
-  deleteContact
+  deleteContact,
+  filterContacts,
  };
 });
