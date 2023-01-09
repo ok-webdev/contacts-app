@@ -22,7 +22,7 @@
     <template v-slot:activator="{ props }">
      <v-icon icon="mdi-dots-horizontal" class="menu-icon mr-3" v-bind="props" />
     </template>
-    <v-list>
+    <v-list class="px-2">
      <v-btn variant="plain" color="primary" size="small" @click="editContact"
       >Edit</v-btn
      >
@@ -41,8 +41,14 @@
       <strong>Full name:</strong> {{ props.firstName }} {{ props.lastName }}
      </p>
      <p><strong>Country:</strong> {{ props.country }}</p>
-     <p><strong>Email:</strong> {{ props.email }}</p>
-     <p><strong>Phone:</strong> {{ props.phone }}</p>
+     <p>
+      <strong>Email: </strong>
+      <a :href="'mailto:' + props.email">{{ props.email }}</a>
+     </p>
+     <p>
+      <strong>Phone: </strong>
+      <a :href="'tel:' + props.phone">{{ props.phone.replace(/\D+/g, '').replace(/(\d{1})(\d{3})(\d{3})(\d{4})/, '+$1 ($2) $3-$4') }}</a>
+     </p>
     </v-card-text>
    </div>
   </v-expand-transition>
