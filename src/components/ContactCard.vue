@@ -10,7 +10,8 @@
 
     <div>
      <v-card-title>
-      {{ props.firstName + ' ' + props.lastName }}
+      <p class="name">{{ props.firstName }}</p>
+      <p class="name">{{ props.lastName }}</p>
      </v-card-title>
      <v-card-subtitle>
       {{ props.jobTitle }} at {{ props.company }}
@@ -19,7 +20,7 @@
    </div>
    <v-menu>
     <template v-slot:activator="{ props }">
-     <v-icon icon="mdi-dots-horizontal" class="mr-3" v-bind="props" />
+     <v-icon icon="mdi-dots-horizontal" class="menu-icon mr-3" v-bind="props" />
     </template>
     <v-list>
      <v-btn variant="plain" color="primary" size="small" @click="editContact"
@@ -36,6 +37,9 @@
    <div v-if="expand" class="ml-9 mr-3">
     <v-divider />
     <v-card-text>
+     <p>
+      <strong>Full name:</strong> {{ props.firstName }} {{ props.lastName }}
+     </p>
      <p><strong>Country:</strong> {{ props.country }}</p>
      <p><strong>Email:</strong> {{ props.email }}</p>
      <p><strong>Phone:</strong> {{ props.phone }}</p>
@@ -89,20 +93,34 @@
 
  const expand = ref(false);
  function deleteContact() {
-  emit('delete', {id: props.id, name: `${props.firstName} ${props.lastName}`});
+  emit('delete', {
+   id: props.id,
+   name: `${props.firstName} ${props.lastName}`,
+  });
  }
 
  function editContact() {
-  emit('edit', {...props});
+  emit('edit', { ...props });
  }
 </script>
 
 <style scoped>
+ .name {
+  width: 150px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+ }
  .icon {
   cursor: pointer;
   transition: all 0.3s ease;
  }
  .rotate {
   transform: rotate(90deg);
+ }
+ @media (max-width: 400px) {
+  .menu-icon {
+   transform: rotate(90deg);
+  }
  }
 </style>
