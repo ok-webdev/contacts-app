@@ -9,7 +9,7 @@
   </div>
   <v-text-field
    v-model="formData.firstName"
-   :rules="rules"
+   :rules="[rules.required]"
    label="First name"
    color="primary"
    variant="underlined"
@@ -19,7 +19,7 @@
   />
   <v-text-field
    v-model="formData.lastName"
-   :rules="rules"
+   :rules="[rules.required]"
    label="Last name"
    color="primary"
    variant="underlined"
@@ -29,21 +29,21 @@
   />
   <v-text-field
    v-model="formData.email"
-   :rules="rules"
+   :rules="[rules.required, rules.email]"
    label="Email"
    color="primary"
    variant="underlined"
    required
-   hint="required"
+   hint="Example: mail@mail.com (required)"
    persistent-hint
   />
   <v-text-field
    v-model="formData.phone"
-   :rules="rules"
+   :rules="[rules.required, rules.phone]"
    label="Phone"
    color="primary"
    variant="underlined"
-   hint="required"
+   hint="11 digits number required"
    persistent-hint
   />
   <v-text-field
@@ -63,7 +63,7 @@
    persistent-hint
   />
   <v-select
-   label="Select"
+   label="Country"
    v-model="formData.country"
    :items="countries"
    item-title="name"
@@ -107,7 +107,18 @@
   phone: '',
  });
 
- const rules = [(v) => !!v || 'Field is required'];
+ const rules = {
+  required: (value) => !!value || 'Required.',
+  email: (value) => {
+   const pattern =
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+   return pattern.test(value) || 'Invalid e-mail! (email@email.com)';
+  },
+  phone: (value) => {
+   const pattern = /^\d{11}$/;
+   return pattern.test(value) || 'Invalid phone number (11 digits required)';
+  },
+ };
 
  onMounted(() => {
   if (props.mode === 'edit' && props.contact) {
@@ -169,8 +180,7 @@
 
 <style scoped>
  .form {
-  min-width: 200px;
-  width: 350px;
+  width: 310px;
   background-color: aliceblue;
  }
 </style>
