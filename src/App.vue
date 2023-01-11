@@ -16,6 +16,11 @@
  const currentContacts = computed(() => {
   return filter.value?.trim() ? filteredContacts.value : contacts.value;
  });
+
+ const contactsFound = computed(() => {
+  return contacts.value.length === 1 ? 'contact' : 'contacts';
+ });
+
  let formMode = ref('add');
 
  const isModal = ref(false);
@@ -87,7 +92,7 @@
     @click:clear="filterContacts"
    />
    <p class="text-center" v-if="contacts?.length">
-    {{ currentContacts.length }} contacts found
+    {{ currentContacts.length }} {{ contactsFound }} found
    </p>
    <p class="text-center" v-else>No contacts. Add it!</p>
   </v-container>
