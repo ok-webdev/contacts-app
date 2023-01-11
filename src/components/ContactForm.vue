@@ -43,7 +43,7 @@
       label="Phone"
       color="primary"
       variant="underlined"
-      hint="11 digits number required"
+      hint="digits only required"
       persistent-hint
     />
     <v-text-field
@@ -108,15 +108,17 @@
   });
 
   const rules = {
-    required: (value) => !!value || 'Required.',
+    required: (value) => !!value && !!value.trim() || 'Required.',
     email: (value) => {
       const pattern =
         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       return pattern.test(value) || 'Invalid e-mail! (email@email.com)';
     },
     phone: (value) => {
-      const pattern = /^\d{11}$/;
-      return pattern.test(value) || 'Invalid phone number (11 digits required)';
+      const pattern = /^\d+$/;
+      return (
+        pattern.test(value) || 'Invalid phone number (digits only required)'
+      );
     },
   };
 
