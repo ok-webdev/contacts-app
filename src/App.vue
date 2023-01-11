@@ -30,10 +30,9 @@
   }
   function closeModal() {
     isModal.value = false;
-    currentContact.value = null;
   }
 
-  watch(isModal, (val) => !val ? currentContact.value = null : '' )
+  watch(isModal, (val) => !val ? setTimeout(() => currentContact.value = null, 300) : '' )
   
   function formSubmitHandler(e) {
     const now = new Date();
