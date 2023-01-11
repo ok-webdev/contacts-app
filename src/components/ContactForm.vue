@@ -5,7 +5,7 @@
     class="form bg-white rounded-lg pa-6"
   >
     <div class="mb-3">
-      <h2>{{ props.mode === 'add' ? 'Add' : 'Edit' }} contact</h2>
+      <h2>{{ props.contact ? 'Edit' : 'Add' }} contact</h2>
     </div>
     <v-text-field
       v-model="formData.firstName"
@@ -74,9 +74,11 @@
     />
 
     <div class="d-flex justify-center mt-3">
-      <v-btn type="reset" variant="plain" color="error">Cancel</v-btn>
-      <v-btn type="submit" variant="tonal" color="primary" class="ml-3">{{
-        props.mode === 'add' ? 'add' : 'edit'
+      <v-btn type="reset" variant="plain" color="error" class="btn mr-1"
+        >Cancel</v-btn
+      >
+      <v-btn type="submit" variant="tonal" color="primary" class="btn ml-1">{{
+        props.contact ? 'edit' : 'add'
       }}</v-btn>
     </div>
   </v-form>
@@ -86,10 +88,6 @@
   import countries from '../assets/countries.json';
   import { ref, onMounted } from 'vue';
   const props = defineProps({
-    mode: {
-      type: String,
-      default: 'add',
-    },
     contact: {
       type: Object,
       required: false,
@@ -108,7 +106,7 @@
   });
 
   const rules = {
-    required: (value) => !!value && !!value.trim() || 'Required.',
+    required: (value) => (!!value && !!value.trim()) || 'Required.',
     email: (value) => {
       const pattern =
         /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -123,7 +121,7 @@
   };
 
   onMounted(() => {
-    if (props.mode === 'edit' && props.contact) {
+    if (props.contact) {
       formData.value = {
         firstName: props.contact.firstName,
         lastName: props.contact.lastName,
@@ -152,10 +150,10 @@
   }
 
   function submitHandler() {
-    if (props.mode === 'add') {
+    if (!props.contact) {
       submitAddHandler();
     }
-    if (props.mode === 'edit') {
+    if (props.contact) {
       submitEditHandler();
     }
   }
@@ -177,5 +175,8 @@
   .form {
     width: 310px;
     background-color: aliceblue;
+  }
+  .btn {
+    width: 100px;
   }
 </style>
