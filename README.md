@@ -3,14 +3,16 @@
 ## Description
 
 An app for storing contacts.
-Features: 
-- Create 
+Features:
+
+- Create
 - Edit
 - Delete
 - Filter contacts.
 
-Technologies: 
-- Vue3 (Composition API) 
+Technologies:
+
+- Vue3 (Composition API)
 - Pinia
 - Vuetify
 - Vite
@@ -18,11 +20,13 @@ Technologies:
 ## Deployed
 
 [WATCH HERE](https://contacts-app-pet.netlify.app)
+
 ### Setup
 
 ```bash
 npm install
 ```
+
 ### Develop
 
 ```bash
@@ -34,4 +38,3 @@ npm run dev
 ```bash
 npm run build
 ```
-
