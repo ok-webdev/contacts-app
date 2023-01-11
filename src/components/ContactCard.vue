@@ -1,17 +1,18 @@
 <template>
-  <v-card class="mb-3" color="#efefef">
+  <v-card class="mb-3 pb-3 pt-1" color="#f8f6f9">
     <div class="d-flex align-center justify-space-between pb-3">
-      <div class="d-flex align-center">
+      <div class="d-flex align-start">
         <v-icon
           icon="mdi-chevron-right"
-          :class="['mt-3 mx-3 icon', { rotate: expand }]"
+          :class="['mt-3 ml-3 icon', { rotate: expand }]"
           @click="expand = !expand"
         />
 
         <div>
           <v-card-title>
-            <p class="name">{{ props.firstName }}</p>
-            <p class="name">{{ props.lastName }}</p>
+            <p class="name body-1 font-weight-light">
+              {{ props.firstName }} {{ props.lastName }}
+            </p>
           </v-card-title>
           <v-card-subtitle>
             {{ props.jobTitle }} at {{ props.company }}
@@ -46,27 +47,34 @@
       </v-menu>
     </div>
     <v-expand-transition>
-      <div v-if="expand" class="ml-9 mr-3">
+      <div v-if="expand">
         <v-divider />
-        <v-card-text>
-          <p>
-            <strong>Full name:</strong> {{ props.firstName }}
-            {{ props.lastName }}
-          </p>
-          <p><strong>Country:</strong> {{ props.country }}</p>
-          <p>
-            <strong>Email: </strong>
-            <a :href="'mailto:' + props.email">{{ props.email }}</a>
-          </p>
-          <p>
-            <strong>Phone: </strong>
-            <a :href="'tel:' + props.phone">{{
-              props.phone
-                .replace(/\D+/g, '')
-                .replace(/(\d{1})(\d{3})(\d{3})(\d{4})/, '+$1 ($2) $3-$4')
-            }}</a>
-          </p>
-        </v-card-text>
+        <table class="ml-12 mt-2">
+          <tr>
+            <td class="pr-2">Full name:</td>
+            <td>{{ props.firstName }} {{ props.lastName }}</td>
+          </tr>
+          <tr>
+            <td class="pr-3">Country:</td>
+            <td>{{ props.country }}</td>
+          </tr>
+          <tr>
+            <td class="pr-3">Email:</td>
+            <td>
+              <a :href="'mailto:' + props.email">{{ props.email }}</a>
+            </td>
+          </tr>
+          <tr>
+            <td class="pr-3">Phone:</td>
+            <td>
+              <a :href="'tel:' + props.phone">{{
+                props.phone
+                  .replace(/\D+/g, '')
+                  .replace(/(\d{1})(\d{3})(\d{3})(\d{4})/, '+$1 ($2) $3-$4')
+              }}</a>
+            </td>
+          </tr>
+        </table>
       </div>
     </v-expand-transition>
   </v-card>
@@ -129,7 +137,7 @@
 
 <style scoped>
   .name {
-    width: 150px;
+    width: 170px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
