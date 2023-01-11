@@ -74,7 +74,7 @@
     />
 
     <div class="d-flex justify-center mt-3">
-      <v-btn type="reset" variant="tonal" color="error">Cancel</v-btn>
+      <v-btn type="reset" variant="plain" color="error">Cancel</v-btn>
       <v-btn type="submit" variant="tonal" color="primary" class="ml-3">{{
         props.mode === 'add' ? 'add' : 'edit'
       }}</v-btn>
