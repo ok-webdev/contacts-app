@@ -1,6 +1,6 @@
 <script setup>
   import { useContactsStore } from './store/contacts.js';
-  import { ref, computed } from 'vue';
+  import { ref, computed, watch } from 'vue';
 
   import TheHeader from './components/TheHeader.vue';
   import ContactCard from './components/ContactCard.vue';
@@ -21,19 +21,20 @@
     return contacts.value.length === 1 ? 'contact' : 'contacts';
   });
 
-  let formMode = ref('add');
-
   const isModal = ref(false);
   const currentContact = ref(null);
   const isSubmitDeleteContactModal = ref(false);
 
-  function openModal(mode) {
-    formMode.value = mode;
+  function openModal() {
     isModal.value = !isModal.value;
   }
   function closeModal() {
     isModal.value = false;
+    currentContact.value = null;
   }
+
+  watch(isModal, (val) => !val ? currentContact.value = null : '' )
+  
   function formSubmitHandler(e) {
     const now = new Date();
     const id =
@@ -61,9 +62,8 @@
   }
 
   function editContact(e) {
-    formMode.value = 'edit';
     currentContact.value = e;
-    openModal(formMode.value);
+    openModal();
   }
 
   function editContactHandler(e) {
@@ -122,7 +122,6 @@
     class="align-center justify-center"
   >
     <contact-form
-      :mode="formMode"
       :contact="currentContact"
       @submit="formSubmitHandler"
       @edit="editContactHandler"
