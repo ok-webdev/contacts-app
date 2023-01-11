@@ -146,14 +146,7 @@
  }
 
  function submitEditHandler() {
-  if (
-   formData.value.firstName.length > 0 &&
-   formData.value.lastName.length > 0 &&
-   formData.value.email.length > 0 &&
-   formData.value.phone.length > 0
-  ) {
-   emit('edit', { id: props.contact.id, ...formData.value });
-  }
+  emit('edit', { id: props.contact.id, ...formData.value });
  }
 
  function submitHandler() {
