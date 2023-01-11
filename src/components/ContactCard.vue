@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mb-3 pb-3 pt-1" color="#f8f6f9">
+  <v-card class="mb-4 pb-3 pt-1" color="#f8f6f9">
     <div class="d-flex align-center justify-space-between pb-3">
       <div class="d-flex align-start">
         <v-icon
@@ -124,6 +124,7 @@
 
   const expand = ref(false);
   function deleteContact() {
+    
     emit('delete', {
       id: props.id,
       name: `${props.firstName} ${props.lastName}`,
