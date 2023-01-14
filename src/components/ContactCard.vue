@@ -124,7 +124,6 @@
 
   const expand = ref(false);
   function deleteContact() {
-    
     emit('delete', {
       id: props.id,
       name: `${props.firstName} ${props.lastName}`,
@@ -138,10 +137,7 @@
 
 <style scoped>
   .name {
-    width: 170px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    width: 100%;
   }
   .icon {
     cursor: pointer;
@@ -153,6 +149,12 @@
   @media (max-width: 400px) {
     .menu-icon {
       transform: rotate(90deg);
+    }
+    .name {
+      width: 170px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
 </style>
